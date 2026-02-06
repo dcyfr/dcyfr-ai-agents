@@ -1,0 +1,74 @@
+{
+  "name": "@dcyfr/ai-agents",
+  "version": "0.1.0",
+  "description": "Autonomous agent framework template - DCYFR AI starter",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./agent": {
+      "import": "./dist/agent/index.js",
+      "types": "./dist/agent/index.d.ts"
+    },
+    "./tools": {
+      "import": "./dist/agent/tools/index.js",
+      "types": "./dist/agent/tools/index.d.ts"
+    },
+    "./memory": {
+      "import": "./dist/agent/memory/index.js",
+      "types": "./dist/agent/memory/index.d.ts"
+    }
+  },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "type-check": "tsc --noEmit",
+    "example:customer-service": "tsx examples/customer-service/index.ts",
+    "example:research": "tsx examples/research-agent/index.ts",
+    "example:code-gen": "tsx examples/code-gen-agent/index.ts"
+  },
+  "keywords": [
+    "ai",
+    "agents",
+    "autonomous",
+    "llm",
+    "dcyfr",
+    "template",
+    "starter"
+  ],
+  "author": "DCYFR",
+  "license": "MIT",
+  "dependencies": {
+    "zod": "^3.22.4"
+  },
+  "peerDependencies": {
+    "@dcyfr/ai": "^0.1.0"
+  },
+  "peerDependenciesMeta": {
+    "@dcyfr/ai": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "@vitest/coverage-v8": "^1.2.0",
+    "eslint": "^8.56.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
