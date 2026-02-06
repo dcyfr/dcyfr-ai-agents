@@ -94,6 +94,7 @@ export class Agent {
    */
   async run(input: string): Promise<AgentResult> {
     const startTime = new Date();
+    const startPerfTime = performance.now();
 
     // Emit start event
     await this.emitEvent({
@@ -127,6 +128,7 @@ export class Agent {
       }
 
       const endTime = new Date();
+      const endPerfTime = performance.now();
       const result: AgentResult = {
         output: this.state.finalOutput || 'No output generated',
         steps: this.state.steps,
@@ -135,7 +137,7 @@ export class Agent {
         metadata: {
           startTime,
           endTime,
-          duration: endTime.getTime() - startTime.getTime(),
+          duration: endPerfTime - startPerfTime,
         },
       };
 
@@ -145,6 +147,7 @@ export class Agent {
       return result;
     } catch (error) {
       const endTime = new Date();
+      const endPerfTime = performance.now();
       const agentError = error instanceof Error ? error : new Error(String(error));
 
       // Emit error event
@@ -162,7 +165,7 @@ export class Agent {
         metadata: {
           startTime,
           endTime,
-          duration: endTime.getTime() - startTime.getTime(),
+          duration: endPerfTime - startPerfTime,
         },
       };
     }
