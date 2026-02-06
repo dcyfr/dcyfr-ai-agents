@@ -1,3 +1,4 @@
+<!-- TLP:CLEAR -->
 # Agent Architecture
 
 This document describes the architecture and design decisions for the @dcyfr/ai-agents framework.
