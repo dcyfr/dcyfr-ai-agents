@@ -34,7 +34,8 @@
     "type-check": "tsc --noEmit",
     "example:customer-service": "tsx examples/customer-service/index.ts",
     "example:research": "tsx examples/research-agent/index.ts",
-    "example:code-gen": "tsx examples/code-gen-agent/index.ts"
+    "example:code-gen": "tsx examples/code-gen-agent/index.ts",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [
     "ai",
