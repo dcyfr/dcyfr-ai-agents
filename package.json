@@ -1,6 +1,6 @@
 {
   "name": "@dcyfr/ai-agents",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Autonomous agent framework template - DCYFR AI starter",
   "type": "module",
   "main": "./dist/index.js",
