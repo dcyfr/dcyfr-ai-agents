@@ -1,5 +1,0 @@
----
-"@dcyfr/ai-agents": minor
----
-
-Migrate to changesets for automated npm publishing with provenance
