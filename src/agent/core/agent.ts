@@ -85,7 +85,7 @@ export class Agent {
   registerTool(tool: Tool): void {
     this.tools.set(tool.name, tool);
     if (this.config.verbose) {
-      console.log(`[Agent] Registered tool: ${tool.name}`);
+      console.warn(`[Agent] Registered tool: ${tool.name}`);
     }
   }
 
