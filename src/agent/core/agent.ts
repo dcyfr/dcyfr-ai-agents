@@ -46,15 +46,16 @@ export class Agent {
       systemPrompt: '', // Will be set below
     };
 
-    // Set system prompt after config is initialized
-    this.config.systemPrompt = options.systemPrompt ?? this.defaultSystemPrompt();
-
-    // Register tools
+    // Register tools BEFORE generating default system prompt
+    // so that tools are available in the prompt
     if (options.tools) {
       for (const tool of options.tools) {
         this.registerTool(tool);
       }
     }
+
+    // Set system prompt after tools are registered
+    this.config.systemPrompt = options.systemPrompt ?? this.defaultSystemPrompt();
 
     // Memory is stored in options for future use
     // (currently not used in placeholder implementation)
@@ -235,8 +236,9 @@ export class Agent {
   /**
    * Make decision about next action
    * In a real implementation, this would use an LLM
+   * Protected to allow testing via subclassing
    */
-  private async makeDecision(): Promise<{
+  protected async makeDecision(): Promise<{
     thought: string;
     action?: { tool: string; input: unknown };
   }> {
@@ -256,8 +258,9 @@ export class Agent {
 
   /**
    * Default system prompt for the agent
+   * Protected to allow testing via subclassing
    */
-  private defaultSystemPrompt(): string {
+  protected defaultSystemPrompt(): string {
     const toolList = Array.from(this.tools.values())
       .map((t) => `- ${t.name}: ${t.description}`)
       .join('\n');
