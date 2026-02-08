@@ -175,4 +175,79 @@ describe('LongTermMemory', () => {
     expect(stats.totalEntries).toBe(2);
     expect(stats.storagePath).toBe(testFile);
   });
+
+  it('should handle errors during persist', async () => {
+    // Create memory with invalid path (trying to write to a directory)
+    const invalidPath = '/invalid/path/that/does/not/exist/file.json';
+    const mem = new LongTermMemory({ storagePath: invalidPath, autoSaveInterval: 0 });
+    
+    await mem.save('key1', 'value1');
+    
+    // Persist should throw an error
+    await expect(mem.persist()).rejects.toThrow();
+  });
+
+  it('should handle auto-save functionality', async () => {
+    const autoSaveFile = join(tmpdir(), `auto-save-${Date.now()}.json`);
+    const autoSaveMem = new LongTermMemory({
+      storagePath: autoSaveFile,
+      autoSaveInterval: 100, // 100ms auto-save
+    });
+
+    try {
+      await autoSaveMem.save('key1', 'value1');
+      
+      // Wait for auto-save to trigger (give it 200ms)
+      await new Promise(resolve => setTimeout(resolve, 200));
+      
+      // Create new instance and verify data was persisted
+      const verifyMem = new LongTermMemory({ storagePath: autoSaveFile });
+      await verifyMem.load();
+      expect(await verifyMem.get('key1')).toBe('value1');
+      
+      await autoSaveMem.dispose();
+      await verifyMem.dispose();
+      await fs.unlink(autoSaveFile);
+    } catch (error) {
+      await autoSaveMem.dispose().catch(() => {});
+      throw error;
+    }
+  });
+
+  it('should dispose and save dirty data', async () => {
+    await memory.save('dispose-key', 'dispose-value');
+    await memory.dispose();
+
+    // Load in new instance to verify dispose persisted data
+    const mem2 = new LongTermMemory({ storagePath: testFile });
+    await mem2.load();
+    expect(await mem2.get('dispose-key')).toBe('dispose-value');
+    await mem2.dispose();
+  });
+
+  it('should handle load errors for corrupted files', async () => {
+    // Write invalid JSON to file
+    const corruptedFile = join(tmpdir(), `corrupted-${Date.now()}.json`);
+    await fs.writeFile(corruptedFile, 'invalid json {[}', 'utf-8');
+
+    const mem = new LongTermMemory({ storagePath: corruptedFile });
+    
+    // Should not throw, but log error and start with empty store
+    await mem.load();
+    expect(await mem.keys()).toHaveLength(0);
+    
+    await mem.dispose();
+    await fs.unlink(corruptedFile).catch(() => {});
+  });
+
+  it('should delete and clear operations', async () => {
+    await memory.save('delete-test', 'value');
+    await memory.save('clear-test', 'value');
+    
+    await memory.delete('delete-test');
+    expect(await memory.get('delete-test')).toBeUndefined();
+    
+    await memory.clear();
+    expect(await memory.keys()).toHaveLength(0);
+  });
 });
