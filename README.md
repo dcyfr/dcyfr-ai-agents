@@ -8,16 +8,67 @@
 
 ## 🎯 Overview
 
-**@dcyfr/ai-agents** is a production-ready starter template for building autonomous AI agents with:
+**@dcyfr/ai-agents** is a production-ready starter template for building autonomous AI agents with tool usage, memory management, and comprehensive observability.
 
-- ✅ **Agent Loop** - Multi-step reasoning and decision-making
-- ✅ **Tool Registry** - Type-safe tool system with validation
-- ✅ **Memory Management** - Short-term and long-term persistence
-- ✅ **Observability** - Event system for monitoring and debugging
-- ✅ **Error Recovery** - Graceful handling of failures
-- ✅ **Strict TypeScript** - Full type safety and IDE support
-- ✅ **Comprehensive Tests** - 99%+ test coverage with Vitest
-- ✅ **Example Agents** - Customer service, research, code generation
+Perfect for developers building AI assistants, research agents, workflow automation, or any application requiring autonomous decision-making with external tool integration.
+
+## ✨ Features
+
+### Core Capabilities
+
+- **🤖 Autonomous Agent Loop** - Multi-step reasoning with configurable iteration limits
+  - Thought → Action → Observation cycle
+  - Automatic decision-making flow
+  - Graceful termination when goals are met
+
+- **🛠️ Type-Safe Tool System** - Production-ready tool framework
+  - Zod schema validation for all inputs
+  - TypeScript generics for full type safety
+  - Built-in tools: calculator, search, time
+  - Easy custom tool creation with examples
+
+- **🧠 Dual Memory Architecture** - Flexible persistence options
+  - **Short-term**: In-memory with configurable size limits
+  - **Long-term**: File-based with auto-save and import/export
+  - Async API compatible with any storage backend
+  - Perfect for conversation history and learned knowledge
+
+- **📡 Event-Driven Observability** - Complete visibility into agent behavior
+  - Real-time events: `start`, `step`, `tool_call`, `tool_result`, `error`, `finish`
+  - Multiple event listeners support
+  - Custom monitoring and logging integrations
+  - Debug agent behavior in development
+
+- **🔒 Production-Grade Error Handling** - Resilient agent execution
+  - Try-catch wrappers around all tool executions
+  - Graceful degradation on failures
+  - Detailed error propagation in results
+  - Automatic Error/non-Error normalization
+
+- **📊 Developer Experience** - Built for productivity
+  - **TypeScript-first**: 100% strict mode, full IntelliSense
+  - **95%+ test coverage**: Every feature thoroughly tested
+  - **Zero config**: Works out of the box
+  - **3 complete examples**: Customer service, research, code generation
+
+### Production Ready
+
+- ✅ **Semantic versioning** with automated releases (changesets)
+- ✅ **ESLint + Prettier** for code quality
+- ✅ **GitHub Actions** for CI/CD
+- ✅ **MIT License** for commercial use
+- ✅ **Comprehensive documentation** with API reference
+- ✅ **Security audited** production dependencies
+
+### Use Cases
+
+Perfect for building:
+- 🤝 Customer service chatbots with tool integration
+- 🔬 Research assistants that search and synthesize information
+- 💻 Code generation agents with file system access
+-  🔄 Workflow automation with multi-step reasoning
+- 📝 Content creation agents with fact-checking tools
+- 🎯 Task planning and execution systems
 
 ## 🚀 Quick Start
 
@@ -266,7 +317,50 @@ Both `ShortTermMemory` and `LongTermMemory` implement:
 - `clear()` - Clear all data
 - `keys()` - List all keys
 
-## 🔧 Configuration
+## � Documentation
+
+### Getting Started
+
+- **[README](README.md)** - This document (Quick start, architecture, examples)
+- **[API Reference](docs/API.md)** - Comprehensive API documentation (coming soon for v1.0.0)
+- **[Examples](examples/)** - Complete working examples:
+  - [`customer-service.ts`](examples/customer-service.ts) - Customer support agent
+  - [`research.ts`](examples/research.ts) - Research and analysis agent
+  - [`code-gen.ts`](examples/code-gen.ts) - Code generation agent
+- **[Contributing Guide](CONTRIBUTING.md)** - How to contribute to the project
+- **[Security Policy](SECURITY.md)** - Vulnerability reporting and security practices (coming soon for v1.0.0)
+
+### Key Concepts
+
+**Agent Loop**: The core execution pattern where the agent iterates through thought → action → observation cycles until completing its task or reaching the maximum iteration limit.
+
+**Tools**: Functions the agent can call to interact with external systems. Each tool has:
+- A unique name
+- A description the agent uses to decide when to call it
+- A Zod input schema for validation
+- An execute function that performs the actual work
+
+**Memory**: Persistent storage for the agent to save and retrieve information across runs. Use short-term for conversation context and long-term for learned knowledge.
+
+**Events**: Real-time notifications of agent activity. Subscribe to events for logging, monitoring, debugging, or building custom integrations.
+
+### External Resources
+
+- 🌐 **DCYFR Website**: [https://www.dcyfr.ai](https://www.dcyfr.ai)
+- 📧 **Support Email**: [hello@dcyfr.ai](mailto:hello@dcyfr.ai)
+- 📚 **Documentation Portal**: [https://docs.dcyfr.ai](https://docs.dcyfr.ai) (coming soon)
+- 🐙 **GitHub Organization**: [https://github.com/dcyfr](https://github.com/dcyfr)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/dcyfr/dcyfr-ai-agents/discussions)
+- 🐛 **Issue Tracker**: [GitHub Issues](https://github.com/dcyfr/dcyfr-ai-agents/issues)
+
+### Related Projects
+
+- [@dcyfr/ai](https://github.com/dcyfr/dcyfr-ai) - Core AI framework and abstractions
+- [@dcyfr/ai-rag](https://github.com/dcyfr/dcyfr-ai-rag) - RAG (Retrieval Augmented Generation) systems
+- [@dcyfr/ai-code-gen](https://github.com/dcyfr/dcyfr-ai-code-gen) - Code generation utilities
+- [@dcyfr/ai-graphql](https://github.com/dcyfr/dcyfr-ai-graphql) - GraphQL API templates
+
+## �🔧 Configuration
 
 ### Environment Variables
 
