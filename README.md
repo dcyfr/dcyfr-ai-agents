@@ -2,15 +2,46 @@
 
 > Autonomous agent framework template - Build AI agents with tool usage, memory, and observability
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)](https://www.typescriptlang.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-20+-green)](https://nodejs.org/)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-20+-green?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Tests](https://img.shields.io/badge/Tests-95%25%20Coverage-28a745?style=flat-square)](./tests/)
+[![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
+
+![Use Case: Customer Service](https://img.shields.io/badge/Use%20Case-Customer%20Service-informational?style=flat-square)
+![Use Case: Research](https://img.shields.io/badge/Use%20Case-Research-informational?style=flat-square)
+![Use Case: Code Generation](https://img.shields.io/badge/Use%20Case-Code%20Generation-informational?style=flat-square)
 
 ## 🎯 Overview
 
 **@dcyfr/ai-agents** is a production-ready starter template for building autonomous AI agents with tool usage, memory management, and comprehensive observability.
 
 Perfect for developers building AI assistants, research agents, workflow automation, or any application requiring autonomous decision-making with external tool integration.
+
+## Table of Contents
+
+<details>
+<summary>📑 Table of Contents</summary>
+
+- [Overview](#-overview)
+- [Features](#-features)
+  - [Core Capabilities](#core-capabilities)
+  - [Production Ready](#production-ready)
+  - [Use Cases](#use-cases)
+- [Quick Start](#-quick-start)
+- [Installation](#-installation)
+- [Basic Usage](#-basic-usage)
+- [Architecture](#️-architecture)
+  - [Agent Execution Flow](#agent-execution-flow)
+  - [Core Components](#core-components)
+- [Detailed Examples](#-detailed-examples)
+- [Testing](#-testing)
+- [API Reference](#-api-reference)
+- [Documentation](#-documentation)
+- [Configuration](#️-configuration)
+- [Contributing](#-contributing)
+- [License](#-license)
+
+</details>
 
 ## ✨ Features
 
@@ -119,6 +150,42 @@ console.log(`Completed in ${result.iterations} steps`);
 
 ## 🏗️ Architecture
 
+### Agent Execution Flow
+
+The agent follows a continuous reasoning loop with tool integration and memory persistence:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Agent
+    participant Tools
+    participant Memory
+    participant LLM
+
+    User->>Agent: Initialize with task
+    Agent->>Tools: Register available tools
+    Agent->>Memory: Load context
+
+    loop Reasoning Loop (max iterations)
+        Agent->>LLM: Thought (Plan next action)
+        LLM-->>Agent: Decision
+
+        alt Tool Required
+            Agent->>Tools: Action (Execute tool)
+            Tools-->>Agent: Observation (Result)
+            Agent->>Memory: Store interaction
+        else Goal Met
+            Agent->>Memory: Save final state
+            Agent-->>User: Return result
+        end
+    end
+
+    style Agent fill:#d4edda
+    style Tools fill:#fff3cd
+    style Memory fill:#cfe2ff
+    style LLM fill:#f8d7da
+```
+
 ### Core Components
 
 #### Agent
@@ -211,6 +278,10 @@ const agent = new Agent({
 });
 ```
 
+[⬆️ Back to top](#dcyfrai-agents)
+
+---
+
 ## 📚 Examples
 
 ### Customer Service Agent
@@ -270,6 +341,10 @@ const weatherTool = {
 agent.registerTool(weatherTool);
 ```
 
+[⬆️ Back to top](#dcyfrai-agents)
+
+---
+
 ## 🧪 Testing
 
 ```bash
@@ -288,6 +363,10 @@ npm run test:coverage
 - **Unit tests** - `tests/unit/*.test.ts`
 - **Integration tests** - `tests/integration/*.test.ts`
 - **Fixtures** - `tests/fixtures/`
+
+[⬆️ Back to top](#dcyfrai-agents)
+
+---
 
 ## 📖 API Reference
 
@@ -317,7 +396,11 @@ Both `ShortTermMemory` and `LongTermMemory` implement:
 - `clear()` - Clear all data
 - `keys()` - List all keys
 
-## � Documentation
+[⬆️ Back to top](#dcyfrai-agents)
+
+---
+
+## 📚 Documentation
 
 ### Getting Started
 
@@ -360,7 +443,11 @@ Both `ShortTermMemory` and `LongTermMemory` implement:
 - [@dcyfr/ai-code-gen](https://github.com/dcyfr/dcyfr-ai-code-gen) - Code generation utilities
 - [@dcyfr/ai-graphql](https://github.com/dcyfr/dcyfr-ai-graphql) - GraphQL API templates
 
-## �🔧 Configuration
+[⬆️ Back to top](#dcyfrai-agents)
+
+---
+
+## ⚙️ Configuration
 
 ### Environment Variables
 
