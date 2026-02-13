@@ -407,13 +407,13 @@ Both `ShortTermMemory` and `LongTermMemory` implement:
 ### Getting Started
 
 - **[README](README.md)** - This document (Quick start, architecture, examples)
-- **[API Reference](docs/API.md)** - Comprehensive API documentation (coming soon for v1.0.0)
+- **[API Reference](docs/API.md)** - Comprehensive API documentation
 - **[Examples](examples/)** - Complete working examples:
   - [`customer-service.ts`](examples/customer-service.ts) - Customer support agent
   - [`research.ts`](examples/research.ts) - Research and analysis agent
   - [`code-gen.ts`](examples/code-gen.ts) - Code generation agent
 - **[Contributing Guide](CONTRIBUTING.md)** - How to contribute to the project
-- **[Security Policy](SECURITY.md)** - Vulnerability reporting and security practices (coming soon for v1.0.0)
+- **[Security Policy](SECURITY.md)** - Vulnerability reporting and security practices
 
 ### Key Concepts
 
