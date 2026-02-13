@@ -1,0 +1,66 @@
+{
+  "name": "@dcyfr/autonomous-research-agent-example",
+  "version": "1.0.0",
+  "description": "Example autonomous research agent demonstrating Phase 0 autonomous operations features",
+  "private": true,
+  "type": "module",
+  "main": "dist/research-agent.js",
+  "bin": {
+    "research-demo": "dist/demo.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "demo": "tsx demo.ts",
+    "demo:interactive": "tsx demo.ts",
+    "demo:quantum": "tsx demo.ts -- --topic 'quantum computing applications'",
+    "demo:ai-ethics": "tsx demo.ts -- --topic 'AI ethics and governance' --audience expert",
+    "demo:production": "tsx demo.ts -- --config production --show-telemetry",
+    "demo:research": "tsx demo.ts -- --config research --max-depth 5",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist",
+    "telemetry": "npx @dcyfr/ai telemetry",
+    "validate": "npx @dcyfr/ai validate-runtime"
+  },
+  "dependencies": {
+    "@dcyfr/ai": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
+  },
+  "peerDependencies": {
+    "@dcyfr/ai": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "ai",
+    "agent",
+    "autonomous",
+    "research",
+    "llm",
+    "memory",
+    "telemetry",
+    "dcyfr",
+    "example"
+  ],
+  "author": "DCYFR Labs",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dcyfr/dcyfr-ai-agents.git",
+    "directory": "examples/autonomous-research-agent"
+  },
+  "bugs": {
+    "url": "https://github.com/dcyfr/dcyfr-ai-agents/issues"
+  },
+  "homepage": "https://github.com/dcyfr/dcyfr-ai-agents/tree/main/examples/autonomous-research-agent"
+}

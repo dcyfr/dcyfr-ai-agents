@@ -4,6 +4,8 @@
 **Purpose:** Public template showcasing DCYFR AI agent capabilities  
 **Priority:** P1.1 (AI Differentiator - Build First)
 
+**✨ Phase 0 Autonomous Operations:** This project now includes production-ready autonomous operations with AgentRuntime, memory integration, telemetry monitoring, and extensible hook systems.
+
 ---
 
 ## 📌 Project Context
@@ -11,21 +13,50 @@
 This is a **P1 priority template** that demonstrates DCYFR's core value proposition: autonomous AI agents with tool usage, memory, and observability.
 
 **Key Differentiators:**
-- ✅ Complete agent execution loop with multi-step reasoning
-- ✅ Type-safe tool system with Zod validation
-- ✅ Dual memory system (short-term + long-term persistence)
-- ✅ Event-driven observability for monitoring
-- ✅ Production-ready with 99%+ test coverage
-- ✅ Three example agents (customer service, research, code gen)
+- ✅ **AgentRuntime Orchestration** - Phase 0 autonomous execution with provider fallback
+- ✅ **Memory Context Integration** - Automatic retrieval and injection with relevance scoring
+- ✅ **Multi-Step Reasoning** - WorkingMemory state management across task steps
+- ✅ **Telemetry Monitoring** - SQLite event capture with cost analysis dashboard
+- ✅ **Hook System Extensibility** - beforeExecute/afterExecute hooks for custom logic
+- ✅ **Provider Fallback** - OpenAI → Anthropic → Ollama graceful degradation
+- ✅ **Production-Ready** - 99%+ test coverage with comprehensive E2E validation
+- ✅ **Real-World Examples** - Autonomous research agent demonstrating all Phase 0 features
 
 ---
 
 ## 🎯 Architecture Patterns
 
-### Agent Loop Pattern
+### AgentRuntime Pattern (Phase 0)
 
 ```typescript
-// Agent decision-making loop
+// Autonomous task execution with memory and telemetry
+import { AgentRuntime, ProviderRegistry, TelemetryEngine, DCYFRMemory } from '@dcyfr/ai';
+
+const runtime = new AgentRuntime({
+  providerRegistry: new ProviderRegistry(),
+  memory: new DCYFRMemory({ storage: 'memory' }),
+  telemetry: new TelemetryEngine({ storage: 'sqlite' })
+});
+
+// Execute task with memory context and telemetry
+const result = await runtime.executeTask('Analyze market trends for Q1', {
+  timeout: 30000,
+  memoryConfig: {
+    maxResults: 10,
+    minScore: 0.7
+  }
+});
+
+if (result.success) {
+  console.log('Task completed:', result.output);
+  console.log('Memory used:', result.memoryRetrievalUsed);
+}
+```
+
+### Traditional Agent Loop Pattern
+
+```typescript
+// Agent decision-making loop (for custom implementations)
 while (iteration < maxIterations && !finished) {
   // 1. Decide next action (thought + tool selection)
   const decision = await makeDecision(state);
@@ -38,6 +69,25 @@ while (iteration < maxIterations && !finished) {
   
   // 3. Update state and check completion
   state = updateState(decision, result);
+}
+```
+
+### Dynamic Agent Import Pattern
+
+For optional dependency management:
+```typescript
+// Dynamic import for graceful degradation
+export async function createAutonomousAgent(config: AgentConfig) {
+  try {
+    const { AgentRuntime, ProviderRegistry } = await import('@dcyfr/ai');
+    return new AutonomousAgent(new AgentRuntime(config));
+  } catch (error) {
+    if (error.message.includes('Cannot resolve module')) {
+      console.warn('AgentRuntime not available, using fallback agent');
+      return new FallbackAgent(config);
+    }
+    throw error;
+  }
 }
 ```
 
@@ -54,7 +104,40 @@ interface Tool {
 }
 ```
 
-### Memory Abstraction
+### Memory Integration (Phase 0)
+
+**Automatic Context Retrieval:**
+```typescript
+// Memory automatically retrieved and injected by AgentRuntime
+const result = await runtime.executeTask('Explain quantum computing', {
+  memoryConfig: {
+    maxResults: 15,    // Maximum context entries
+    minScore: 0.7,     // Relevance threshold (0.0-1.0)
+    enabled: true      // Enable/disable memory retrieval
+  }
+});
+
+// Memory persistence after successful completion
+if (result.success) {
+  // AgentRuntime automatically stores successful results
+  console.log(`Memory retrieval used: ${result.memoryRetrievalUsed}`);
+}
+```
+
+**WorkingMemory State Management:**
+```typescript
+// Cross-step state coordination
+const workingMemory = runtime.getWorkingMemory();
+workingMemory.set('research-step-1', {
+  topic: 'AI ethics',
+  findings: ['Transparency', 'Accountability']
+});
+
+// Access in subsequent steps
+const previousStep = workingMemory.get('research-step-1');
+```
+
+### Traditional Memory Abstraction
 
 Both memory types implement `MemoryStore` interface:
 - `save(key, value)` - Store
@@ -63,7 +146,52 @@ Both memory types implement `MemoryStore` interface:
 - ` clear()` - Wipe
 - `keys()` - List
 
-### Event System
+### Hook System (Phase 0)
+
+**Extensible Before/After Hooks:**
+```typescript
+// Add custom hooks for validation, logging, monitoring
+runtime.addHook('beforeExecute', async (task: string) => {
+  console.log(`Starting task: ${task}`);
+  
+  // Validation hook
+  if (task.includes('sensitive')) {
+    return { approved: false, reason: 'Sensitive content detected' };
+  }
+  
+  return { approved: true };
+});
+
+runtime.addHook('afterExecute', async (task, result, success) => {
+  // Custom telemetry
+  await customLogger.track({
+    task,
+    success,
+    duration: result.duration,
+    timestamp: Date.now()
+  });
+});
+```
+
+### Telemetry Monitoring (Phase 0)
+
+**Event Capture & Analysis:**
+```typescript
+// All events automatically captured to SQLite
+const telemetry = runtime.getTelemetryEngine();
+const events = await telemetry.getEvents();
+
+// Dashboard commands
+const { TelemetryDashboard } = await import('@dcyfr/ai/cli/telemetry-dashboard');
+const dashboard = new TelemetryDashboard();
+
+// Show recent activity
+dashboard.showRecentEvents(20);
+dashboard.showCostSummary();
+dashboard.showProviderSummary();
+```
+
+### Traditional Event System
 
 Observability through events:
 - `start` - Agent execution begins
@@ -76,6 +204,13 @@ Observability through events:
 ---
 
 ## 🏗️ File Organization
+
+### Autonomous Operations Examples (`examples/`)
+- **autonomous-research-agent/** - Complete Phase 0 demonstration (600+ lines)
+  - Multi-step research pipeline with memory integration
+  - Hook system extensions and telemetry monitoring 
+  - Provider fallback and configuration management
+  - Comprehensive tests and documentation
 
 ### Core Implementation (`src/agent/core/`)
 - **agent.ts** - Main Agent class (200+ lines)
@@ -98,7 +233,199 @@ Observability through events:
   - AgentConfig, AgentState, AgentResult
   - Tool, ToolExample, ToolContext
   - AgentEvent, AgentEventListener
+  - AutonomousAgent interfaces (Phase 0)
+  - ResearchConfig, ResearchResult, AgentMetrics
   - MemoryStore
+
+---
+
+## 🚀 Getting Started with Autonomous Operations (Phase 0)
+
+### Prerequisites
+
+```bash
+# Node.js 18+ required
+node --version
+
+# Install dependencies
+npm install @dcyfr/ai
+
+# Optional: Configure LLM providers
+export OPENAI_API_KEY=your_openai_key
+export ANTHROPIC_API_KEY=your_anthropic_key
+# OR install local Ollama for development
+```
+
+### Quick Start: Autonomous Research Agent
+
+```bash
+# Run the example
+cd examples/autonomous-research-agent
+npm run demo
+
+# Direct research
+npm run demo -- --topic "AI ethics in healthcare"
+
+# Production configuration
+npm run demo -- --config production --show-telemetry
+```
+
+### Basic Implementation
+
+```typescript
+import { createResearchAgent } from './examples/autonomous-research-agent/research-agent';
+
+// Create agent with autonomous operations
+const agent = await createResearchAgent({
+  providers: ['openai', 'anthropic'],
+  memoryEnabled: true,
+  telemetryEnabled: true
+});
+
+// Conduct autonomous research
+const result = await agent.research({
+  topic: 'quantum computing applications',
+  maxDepth: 3,
+  includeRecent: true,
+  audienceLevel: 'expert'
+});
+
+console.log(result.summary);
+console.log(result.findings);
+console.log(result.metadata);
+```
+
+### Environment Validation
+
+```bash
+# Check runtime configuration
+npm run validate
+
+# View telemetry dashboard
+npm run telemetry
+
+# Alternative CLI commands
+npx @dcyfr/ai validate-runtime
+npx @dcyfr/ai telemetry --recent 20
+```
+
+### Provider Configuration
+
+**OpenAI Setup:**
+```bash
+export OPENAI_API_KEY=sk-your-key-here
+# Supports: gpt-4, gpt-4o, gpt-3.5-turbo
+```
+
+**Anthropic Setup:**
+```bash
+export ANTHROPIC_API_KEY=sk-ant-your-key-here
+# Supports: claude-3-5-sonnet, claude-3-haiku, claude-3-opus
+```
+
+**Ollama Setup (Local Development):**
+```bash
+# Install Ollama
+curl -fsSL https://ollama.ai/install.sh | sh
+
+# Install a model
+ollama pull llama2
+# OR: ollama pull codellama, qwen2.5, etc.
+
+# Optional: Custom host
+export OLLAMA_HOST=localhost:11434
+```
+
+### Memory Configuration
+
+```typescript
+const config: AgentConfig = {
+  memoryEnabled: true,
+  memoryConfig: {
+    maxResults: 10,     // Maximum context entries (5-25 recommended)
+    minScore: 0.7       // Relevance threshold (0.5-0.9 range)
+  }
+};
+```
+
+**Memory Relevance Guidelines:**
+- `0.9+`: Only highly relevant context (restrictive)
+- `0.7-0.8`: Balanced relevance (recommended)
+- `0.5-0.6`: More permissive context (development)
+- `<0.5`: Too noisy (not recommended)
+
+### Telemetry Configuration
+
+```typescript
+const config: AgentConfig = {
+  telemetryEnabled: true,
+  // SQLite database automatically created at ~/.dcyfr/telemetry.db
+};
+
+// View telemetry dashboard
+const { TelemetryDashboard } = await import('@dcyfr/ai/cli/telemetry-dashboard');
+const dashboard = new TelemetryDashboard();
+
+// Show metrics
+dashboard.showRecentEvents(10);
+dashboard.showCostSummary();
+dashboard.showProviderSummary();
+```
+
+**Telemetry Data Captured:**
+- Task execution events (start/finish/error)
+- Memory retrieval events (context found/relevant/duration)
+- Provider usage (API calls/costs/response times)
+- Hook execution (before/after timing)
+- Working memory state changes
+
+### Troubleshooting Common Issues
+
+**"Cannot resolve module @dcyfr/ai"**
+```bash
+# Install from workspace root
+cd ../../  # Navigate to dcyfr-ai-agents root
+npm install
+```
+
+**"Provider not available"**
+```bash
+# Check API keys
+echo $OPENAI_API_KEY
+echo $ANTHROPIC_API_KEY
+
+# Validate configuration
+npx @dcyfr/ai validate-runtime
+```
+
+**"Research timeout"**
+```bash
+# Reduce complexity
+npm run demo -- --max-depth 2
+
+# Use local providers for development
+npm run demo -- --config budget  # Ollama only
+```
+
+**"Memory retrieval failed"**
+```bash
+# Lower relevance threshold
+npm run demo -- --config development  # minScore: 0.6
+
+# Check memory configuration in config.ts
+```
+
+**High API Costs:**
+```typescript
+// Use budget configuration
+const budgetConfig = {
+  providers: ['ollama'],  // Local only
+  memoryConfig: {
+    maxResults: 5,        // Reduce context
+    minScore: 0.8        // Higher relevance
+  }
+};
+```
 
 ---
 

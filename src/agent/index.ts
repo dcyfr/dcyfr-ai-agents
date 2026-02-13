@@ -3,6 +3,7 @@
  */
 
 export { Agent, type AgentOptions } from './core/agent.js';
+export { AgentRouter, type RouterConfig, type ExecutionStats } from './core/router.js';
 export * from './tools/index.js';
 export * from './memory/index.js';
 
