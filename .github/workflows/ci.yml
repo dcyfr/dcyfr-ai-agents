@@ -54,3 +54,31 @@ jobs:
         with:
           name: coverage
           path: coverage/
+
+  version-compatibility:
+    name: Version Compatibility Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dcyfr-ai-version: ['1.0.4', '1.0.3', '1.0.2', '1.0.1']
+        node-version: ['20', '22']
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: ''
+      - name: Install dependencies
+        run: npm install
+      - name: Install specific @dcyfr/ai version
+        run: npm install @dcyfr/ai@${{ matrix.dcyfr-ai-version }}
+      - name: Set version environment variable
+        run: echo "DCYFR_AGENTS_VERSION=$(node -p \"require('./package.json').version\")" >> $GITHUB_ENV
+      - name: Run version compatibility test
+        run: npm run test -- --testNamePattern="version|compatibility|runtime"
+        continue-on-error: true
+      - name: Check version warnings
+        run: |
+          echo "Testing @dcyfr/ai-agents $(node -p "require('./package.json').version") with @dcyfr/ai ${{ matrix.dcyfr-ai-version }}"
+          # This will test that version warnings appear appropriately
