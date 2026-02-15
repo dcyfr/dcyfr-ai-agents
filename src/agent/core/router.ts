@@ -10,9 +10,7 @@
 
 import { Agent } from './agent.js';
 import type {
-  AgentConfig,
   AgentResult,
-  AgentState,
 } from '../../types/index.js';
 
 /**
