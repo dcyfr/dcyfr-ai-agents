@@ -336,6 +336,55 @@ function displayResults(result: any): void {
 }
 
 /**
+ * Select research topic based on CLI options.
+ */
+async function selectTopic(options: ReturnType<typeof parseArgs>): Promise<{ researchTopic: string; researchConfig: any }> {
+  if (options.topic) {
+    return {
+      researchTopic: options.topic,
+      researchConfig: {
+        topic: options.topic,
+        maxDepth: options.maxDepth || 3,
+        includeRecent: true,
+        audienceLevel: options.audienceLevel || 'intermediate',
+      },
+    };
+  }
+  if (options.interactive) {
+    const selection = await selectResearchTopic();
+    return { researchTopic: selection.topic, researchConfig: selection.config };
+  }
+  const custom = getCustomTopic();
+  return { researchTopic: custom.topic, researchConfig: custom.config };
+}
+
+/**
+ * Handle demo errors with contextual hints.
+ */
+function handleDemoError(error: unknown): never {
+  console.error('\n❌ Demo failed:', error);
+  if (error instanceof Error) {
+    if (error.message.includes('Cannot resolve module')) {
+      console.error('\n💡 Setup Required:');
+      console.error('   1. Install dependencies: npm install @dcyfr/ai');
+      console.error('   2. Configure providers: export OPENAI_API_KEY=your_key');
+      console.error('   3. Or install Ollama for local models');
+    } else if (error.message.includes('Provider')) {
+      console.error('\n💡 Provider Issue:');
+      console.error('   • Check API keys are set correctly');
+      console.error('   • Ensure providers are accessible');
+      console.error('   • Try: npx dcyfr validate-runtime');
+    } else if (error.message.includes('timeout')) {
+      console.error('\n💡 Timeout Issue:');
+      console.error('   • Research may be too deep/complex');
+      console.error('   • Try lower --max-depth');
+      console.error('   • Check provider responsiveness');
+    }
+  }
+  process.exit(1);
+}
+
+/**
  * Main demo function
  */
 async function runDemo(): Promise<void> {
@@ -368,26 +417,8 @@ async function runDemo(): Promise<void> {
     console.log(`   Working Memory: ${status.workingMemoryKeys.length} keys\n`);
 
     // Step 4: Select research topic
-    let researchTopic: string;
-    let researchConfig: any;
-
-    if (options.topic) {
-      researchTopic = options.topic;
-      researchConfig = {
-        topic: options.topic,
-        maxDepth: options.maxDepth || 3,
-        includeRecent: true,
-        audienceLevel: options.audienceLevel || 'intermediate'
-      };
-    } else if (options.interactive) {
-      const selection = await selectResearchTopic();
-      researchTopic = selection.topic;
-      researchConfig = selection.config;
-    } else {
-      const custom = getCustomTopic();
-      researchTopic = custom.topic;
-      researchConfig = custom.config;
-    }
+    const { researchTopic, researchConfig } = await selectTopic(options);
+    void researchTopic; // used implicitly via researchConfig
 
     // Step 5: Conduct research
     console.log('🔍 Starting autonomous research...\n');
@@ -424,28 +455,7 @@ async function runDemo(): Promise<void> {
     console.log('   • Try: npx dcyfr validate-runtime (check setup)');
 
   } catch (error) {
-    console.error('\n❌ Demo failed:', error);
-    
-    if (error instanceof Error) {
-      if (error.message.includes('Cannot resolve module')) {
-        console.error('\n💡 Setup Required:');
-        console.error('   1. Install dependencies: npm install @dcyfr/ai');
-        console.error('   2. Configure providers: export OPENAI_API_KEY=your_key');
-        console.error('   3. Or install Ollama for local models');
-      } else if (error.message.includes('Provider')) {
-        console.error('\n💡 Provider Issue:');
-        console.error('   • Check API keys are set correctly');
-        console.error('   • Ensure providers are accessible');
-        console.error('   • Try: npx dcyfr validate-runtime');
-      } else if (error.message.includes('timeout')) {
-        console.error('\n💡 Timeout Issue:');
-        console.error('   • Research may be too deep/complex');
-        console.error('   • Try lower --max-depth');
-        console.error('   • Check provider responsiveness');
-      }
-    }
-    
-    process.exit(1);
+    handleDemoError(error);
   }
 }
 

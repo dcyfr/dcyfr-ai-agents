@@ -41,6 +41,8 @@ export class Agent {
   private listeners: AgentEventListener[] = [];
   private state: AgentState;
   private runtime?: AgentRuntime; // Phase 0: AgentRuntime integration
+  /** Tracks the async runtime initialization so callers can await it. */
+  readonly runtimeReady: Promise<void>;
 
   constructor(options: AgentOptions) {
     this.config = {
@@ -85,8 +87,8 @@ export class Agent {
       isFinished: false,
     };
 
-    // Phase 0: Initialize runtime asynchronously
-    this.initializeRuntime().catch((error) => {
+    // Phase 0: Initialize runtime asynchronously — store promise so it's tracked
+    this.runtimeReady = this.initializeRuntime().catch((error) => {
       if (this.config.verbose) {
         console.warn('[Agent] Runtime initialization failed, using placeholder:', error.message);
       }
