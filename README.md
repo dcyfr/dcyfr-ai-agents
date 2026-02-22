@@ -13,6 +13,34 @@
 ![Use Case: Research](https://img.shields.io/badge/Use%20Case-Research-informational?style=flat-square)
 ![Use Case: Code Generation](https://img.shields.io/badge/Use%20Case-Code%20Generation-informational?style=flat-square)
 
+---
+
+## ⚡ 30-Second Quick Start
+
+```bash
+# Clone template
+npx degit dcyfr/dcyfr-ai-agents my-agent
+cd my-agent
+
+# Install and run
+npm install
+npm run dev
+# ✅ Agent running, ready to process tasks
+```
+
+---
+
+## 🧭 Related Packages
+
+| Package | Purpose | Type |
+|---------|---------|------|
+| [@dcyfr/ai](../dcyfr-ai) | Core AI framework | npm package |
+| [@dcyfr/ai-nodejs](../dcyfr-ai-nodejs) | Node.js starter | Template |
+| [@dcyfr/ai-api](../dcyfr-ai-api) | REST API template | Template |
+| [dcyfr-labs](../dcyfr-labs) | Production Next.js app | Application |
+
+---
+
 ## 🎯 Overview
 
 **@dcyfr/ai-agents** is a production-ready starter template for building autonomous AI agents with tool usage, memory management, and comprehensive observability.
