@@ -19,6 +19,27 @@
 
 Perfect for developers building AI assistants, research agents, workflow automation, or any application requiring autonomous decision-making with external tool integration.
 
+## ⚡ Quick Decision: Is This Template Right for Me?
+
+### ✅ Use this template when:
+
+- 🤖 Building autonomous AI agents that make multi-step decisions
+- 🛠️ Need type-safe tool usage with Zod validation
+- 🧠 Require dual memory architecture (short-term + long-term)
+- 📡 Want full observability into agent behavior
+- 🔒 Need production-grade error handling and resilience
+- 💼 Building customer service bots, research assistants, or code generation tools
+
+### ❌ Consider alternatives when:
+
+- **Simple chat interface needed** → Use [Vercel AI SDK](https://sdk.vercel.ai/) or [LangChain Chat](https://js.langchain.com/)
+- **Browser automation required** → Use [Playwright](https://playwright.dev/) with custom orchestration
+- **Low-latency streaming (<100ms)** → Use [Vercel AI SDK](https://sdk.vercel.ai/) with streaming
+- **Complex agent orchestration** → Use [LangGraph](https://langchain-ai.github.io/langgraph/) or [AutoGPT](https://github.com/Significant-Gravitas/AutoGPT)
+- **Just learning AI** → Start with simpler examples before autonomous agents
+
+---
+
 ## Table of Contents
 
 <details>
