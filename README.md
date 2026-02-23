@@ -1,5 +1,7 @@
 # @dcyfr/ai-agents
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/dcyfr/dcyfr-ai-agents)
+
 > Autonomous agent framework template - Build AI agents with tool usage, memory, and observability
 
 > **📦 Starter Template** — This is a **starter template** for cloning, not an npm package. Use `git clone` or download the source to create your own AI agent application. This package is marked `private: true` and is not published to npm.
@@ -7,6 +9,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-24+-green?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Tests](https://img.shields.io/badge/Tests-95%25%20Coverage-28a745?style=flat-square)](./tests/)
+[![Sponsor](https://img.shields.io/badge/sponsor-30363D?style=flat-square&logo=GitHub-Sponsors&logoColor=#EA4AAA)](https://github.com/sponsors/dcyfr)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 
 ![Use Case: Customer Service](https://img.shields.io/badge/Use%20Case-Customer%20Service-informational?style=flat-square)
