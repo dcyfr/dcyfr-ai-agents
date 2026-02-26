@@ -233,11 +233,6 @@ sequenceDiagram
             Agent-->>User: Return result
         end
     end
-
-    style Agent fill:#d4edda
-    style Tools fill:#fff3cd
-    style Memory fill:#cfe2ff
-    style LLM fill:#f8d7da
 ```
 
 ### Core Components
