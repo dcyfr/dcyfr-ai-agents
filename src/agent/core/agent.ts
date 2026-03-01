@@ -30,6 +30,19 @@ export interface AgentOptions extends AgentConfig {
   memory?: MemoryStore;
   /** Event listeners for observability */
   listeners?: AgentEventListener[];
+  /**
+   * Optional session ID for autonomous runtime integration.
+   * When set, the agent session is correlated across multiple runs
+   * and can use session-scoped memory via SessionManager.
+   */
+  sessionId?: string;
+  /**
+   * Optional SkillRegistry for dynamic skill injection.
+   * When provided, skills matching the task description are
+   * injected into the system prompt before each run.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  skillRegistry?: any;
 }
 
 /**
@@ -43,6 +56,16 @@ export class Agent {
   private runtime?: AgentRuntime; // Phase 0: AgentRuntime integration
   /** Tracks the async runtime initialization so callers can await it. */
   readonly runtimeReady: Promise<void>;
+  /**
+   * Session ID for autonomous runtime correlation.
+   * Undefined when not using session-scoped features.
+   */
+  readonly sessionId?: string;
+  /**
+   * Optional skill registry for dynamic prompt injection.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private readonly skillRegistry?: any;
 
   constructor(options: AgentOptions) {
     this.config = {
@@ -53,6 +76,10 @@ export class Agent {
       verbose: options.verbose ?? false,
       systemPrompt: '', // Will be set below
     };
+
+    // Phase 11: Store sessionId and skillRegistry
+    this.sessionId = options.sessionId;
+    this.skillRegistry = options.skillRegistry;
 
     // Register tools BEFORE generating default system prompt
     // so that tools are available in the prompt
@@ -155,6 +182,9 @@ export class Agent {
 
     // Reset finished flag for new run
     this.state.isFinished = false;
+
+    // Phase 11.2: Inject skills into system prompt if SkillRegistry is available
+    await this._injectSkills(input);
 
     // Emit start event
     await this.emitEvent({
@@ -311,7 +341,7 @@ export class Agent {
             .map((m) => m.content)
             .join('\n'),
           userId: 'agent-executor',
-          sessionId: `session-${Date.now()}`,
+          sessionId: this.sessionId ?? `session-${Date.now()}`,
           tools: Array.from(this.tools.values()).map((tool) => ({
             name: tool.name,
             description: tool.description,
@@ -430,5 +460,31 @@ Final Answer: [Your response to the user]`;
       steps: [],
       isFinished: false,
     };
+  }
+
+  /**
+   * Phase 11.2: Inject skills from SkillRegistry into system prompt.
+   * Called before each run() to augment the system prompt with relevant skills.
+   * No-op when skillRegistry is not configured.
+   */
+  private async _injectSkills(query: string): Promise<void> {
+    if (!this.skillRegistry || typeof this.skillRegistry.injectSkills !== 'function') {
+      return;
+    }
+
+    try {
+      const augmented = await this.skillRegistry.injectSkills(
+        this.config.systemPrompt,
+        query,
+      );
+      if (!augmented || augmented === this.config.systemPrompt) return;
+
+      const systemMsg = this.state.messages.find(m => m.role === 'system');
+      if (systemMsg) {
+        systemMsg.content = augmented;
+      }
+    } catch {
+      // Skill injection is optional — continue without it
+    }
   }
 }
