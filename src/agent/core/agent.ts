@@ -131,10 +131,20 @@ export class Agent {
       // Dynamic import of @dcyfr/ai runtime infrastructure
       const { AgentRuntime, ProviderRegistry, getMemory, TelemetryEngine } = await import('@dcyfr/ai');
 
-      // Initialize runtime components with default config
+      // Initialize runtime components with preferred provider fallback order:
+      // 1. Msty Vibe CLI Proxy (maps openai standard to Claude, GPT/Codex, Gemini, etc. on port 8317)
+      // 2. Anthropic (Claude only)
+      // 3. OpenAI (GPT/Codex only)
+      // 4. GitHub Models API (smaller models for apps)
+      // 5. Ollama (locally hosted models via Msty Local AI on port 11434)
       const providerRegistry = new ProviderRegistry({
-        primaryProvider: 'ollama' as const,
-        fallbackChain: [],
+        primaryProvider: 'copilot' as const, // Msty Vibe CLI Proxy
+        fallbackChain: [
+          'anthropic' as const,        // Priority #2
+          'openai' as const,           // Priority #3
+          'github-models' as const,    // Priority #4
+          'ollama' as const,           // Priority #5
+        ],
         autoReturn: false,
         healthCheckInterval: 60000,
       });
