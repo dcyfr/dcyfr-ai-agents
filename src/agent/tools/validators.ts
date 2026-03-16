@@ -21,10 +21,10 @@ export const validators = {
   probability: z.number().min(0).max(1),
 
   /** URL string */
-  url: z.string().url(),
+  url: z.url(),
 
   /** Email string */
-  email: z.string().email(),
+  email: z.email(),
 
   /** Date string (ISO 8601) */
   dateString: z.string().datetime(),
@@ -60,10 +60,12 @@ export const validators = {
     z.array(itemSchema).min(minLength).max(maxLength),
 
   /** Enum from string literals */
-  stringEnum: <T extends string>(values: readonly T[]): z.ZodEnum<[T, ...T[]]> => z.enum(values as [T, ...T[]]),
+  stringEnum: <T extends string>(values: readonly [T, ...T[]]): z.ZodEnum<{ [K in T]: K }> =>
+    z.enum(values) as z.ZodEnum<{ [K in T]: K }>,
 
   /** Record with specific value type */
-  record: <T>(valueSchema: z.ZodType<T>): z.ZodRecord<z.ZodString, z.ZodType<T>> => z.record(z.string(), valueSchema),
+  record: <T>(valueSchema: z.ZodType<T>): z.ZodRecord<z.ZodString, z.ZodType<T>> =>
+    z.record(z.string(), valueSchema),
 };
 
 /**
@@ -103,14 +105,14 @@ export const commonInputSchemas = {
   apiRequestInput: z.object({
     url: validators.url,
     method: z.enum(['GET', 'POST', 'PUT', 'PATCH', 'DELETE']),
-    headers: z.record(z.string()).optional(),
+    headers: z.record(z.string(), z.string()).optional(),
     body: z.unknown().optional(),
   }),
 
   /** Search input */
   searchInput: z.object({
     query: validators.nonEmptyString,
-    filters: z.record(z.unknown()).optional(),
+    filters: z.record(z.string(), z.unknown()).optional(),
     limit: validators.positiveInt.default(10),
   }),
 

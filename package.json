@@ -72,7 +72,7 @@
     "access": "public"
   },
   "dependencies": {
-    "zod": "^3.22.4"
+    "zod": "^4.3.6"
   },
   "peerDependencies": {
     "@dcyfr/ai": "^2.1.0"
@@ -93,7 +93,8 @@
     "tsx": "^4.7.0",
     "typescript": "^5.3.3",
     "typescript-eslint": "^8.56.0",
-    "vitest": "^4.0.18"
+    "vitest": "^4.0.18",
+    "@dcyfr/ai": "*"
   },
   "engines": {
     "node": ">=20.0.0"
