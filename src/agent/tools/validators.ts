@@ -56,14 +56,16 @@ export const validators = {
     z.string().max(maxLength, `String must be at most ${maxLength} characters`),
 
   /** Array with size constraints */
-  boundedArray: <T>(itemSchema: z.ZodType<T>, minLength: number, maxLength: number) =>
+  boundedArray: <T>(itemSchema: z.ZodType<T>, minLength: number, maxLength: number): z.ZodArray<z.ZodType<T>> =>
     z.array(itemSchema).min(minLength).max(maxLength),
 
   /** Enum from string literals */
-  stringEnum: <T extends string>(values: readonly [T, ...T[]]) => z.enum(values),
+  stringEnum: <T extends string>(values: readonly [T, ...T[]]): z.ZodEnum<{ [K in T]: K }> =>
+    z.enum(values) as z.ZodEnum<{ [K in T]: K }>,
 
   /** Record with specific value type */
-  record: <T>(valueSchema: z.ZodType<T>) => z.record(z.string(), valueSchema),
+  record: <T>(valueSchema: z.ZodType<T>): z.ZodRecord<z.ZodString, z.ZodType<T>> =>
+    z.record(z.string(), valueSchema),
 };
 
 /**
