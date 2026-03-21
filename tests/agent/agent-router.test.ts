@@ -137,7 +137,7 @@ describe('AgentRouter', () => {
         verbose: true,
       });
       
-      const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+      const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
       
       telemetryRouter.registerAgent(testAgent);
       await telemetryRouter.executeWithFallback('test-agent', 'test input');
@@ -164,7 +164,7 @@ describe('AgentRouter', () => {
         verbose: false,
       });
       
-      const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+      const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
       
       telemetryRouter.registerAgent(testAgent);
       await telemetryRouter.executeWithFallback('test-agent', 'test input');
@@ -233,7 +233,7 @@ describe('AgentRouter', () => {
 
     it('should respect verbose configuration', async () => {
       const verboseRouter = new AgentRouter({ verbose: true });
-      const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+      const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
       verboseRouter.registerAgent(testAgent);
 

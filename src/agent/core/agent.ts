@@ -20,12 +20,20 @@ import type {
 } from '../../types/index.js';
 
 // Runtime types (dynamically imported if available)
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AgentRuntime = any;
+type AgentRuntimeLike = {
+  execute(taskContext: unknown): Promise<{
+    output?: string;
+    steps?: Array<{ action?: { tool: string; input: unknown } }>;
+  }>;
+};
+
+type SkillRegistryLike = {
+  injectSkills(systemPrompt: string, query: string): Promise<string>;
+};
 
 export interface AgentOptions extends AgentConfig {
   /** Available tools for the agent */
-  tools?: Tool[];
+  tools?: Tool<unknown, unknown>[];
   /** Memory store implementation */
   memory?: MemoryStore;
   /** Event listeners for observability */
@@ -41,8 +49,7 @@ export interface AgentOptions extends AgentConfig {
    * When provided, skills matching the task description are
    * injected into the system prompt before each run.
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  skillRegistry?: any;
+  skillRegistry?: SkillRegistryLike;
 }
 
 /**
@@ -50,10 +57,10 @@ export interface AgentOptions extends AgentConfig {
  */
 export class Agent {
   private config: Required<AgentConfig>;
-  private tools: Map<string, Tool> = new Map();
+  private tools: Map<string, Tool<unknown, unknown>> = new Map();
   private listeners: AgentEventListener[] = [];
   private state: AgentState;
-  private runtime?: AgentRuntime; // Phase 0: AgentRuntime integration
+  private runtime?: AgentRuntimeLike; // Phase 0: AgentRuntime integration
   /** Tracks the async runtime initialization so callers can await it. */
   readonly runtimeReady: Promise<void>;
   /**
@@ -64,8 +71,7 @@ export class Agent {
   /**
    * Optional skill registry for dynamic prompt injection.
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private readonly skillRegistry?: any;
+  private readonly skillRegistry?: SkillRegistryLike;
 
   constructor(options: AgentOptions) {
     this.config = {
@@ -164,7 +170,7 @@ export class Agent {
       );
 
       if (this.config.verbose) {
-        console.log(`[Agent] Runtime initialized successfully for ${this.config.name}`);
+        console.warn(`[Agent] Runtime initialized successfully for ${this.config.name}`);
       }
     } catch (error) {
       // @dcyfr/ai not available - will use placeholder execution

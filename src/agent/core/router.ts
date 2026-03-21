@@ -67,7 +67,7 @@ export class AgentRouter {
     this.agents.set(agent.getName(), agent);
     
     if (this.config.verbose) {
-      console.log(`[AgentRouter] Registered agent: ${agent.getName()}`);
+      console.warn(`[AgentRouter] Registered agent: ${agent.getName()}`);
     }
   }
 
@@ -214,7 +214,7 @@ export class AgentRouter {
     success: boolean;
   }): void {
     if (this.config.verbose) {
-      console.log('[AgentRouter Telemetry]', {
+      console.warn('[AgentRouter Telemetry]', {
         ...event,
         timestamp: Date.now(),
       });
