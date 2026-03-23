@@ -2,6 +2,20 @@
 
 Thank you for your interest in contributing to the DCYFR AI Agents template!
 
+## Licensing & Contributions
+
+By contributing to `@dcyfr/ai-agents`, you agree that:
+
+- Your contributions will be licensed under the project's MIT License
+- You have the right to submit the contribution under this license
+- You grant DCYFR Labs perpetual rights to use, modify, and distribute your contribution
+
+### Trademark
+
+Do not use "DCYFR" trademarks in ways that imply endorsement without permission. See [../TRADEMARK.md](../TRADEMARK.md) for usage guidelines.
+
+**Questions?** Contact [licensing@dcyfr.ai](mailto:licensing@dcyfr.ai)
+
 ## 🎯 Ways to Contribute
 
 - 🐛 **Bug Reports** - Found an issue? Let us know
@@ -67,16 +81,16 @@ dcyfr-ai-agents/
 - Use descriptive test names
 
 ```typescript
-describe('Feature', () => {
-  it('should handle expected behavior', () => {
+describe("Feature", () => {
+  it("should handle expected behavior", () => {
     // Test implementation
   });
 
-  it('should handle edge case', () => {
+  it("should handle edge case", () => {
     // Edge case test
   });
 
-  it('should throw on invalid input', () => {
+  it("should throw on invalid input", () => {
     // Error test
   });
 });
@@ -150,6 +164,7 @@ type(scope): description
 ```
 
 **Types:**
+
 - `feat` - New feature
 - `fix` - Bug fix
 - `docs` - Documentation
@@ -158,6 +173,7 @@ type(scope): description
 - `chore` - Maintenance
 
 **Examples:**
+
 ```
 feat(tools): add weather lookup tool
 fix(agent): handle empty tool responses
@@ -168,11 +184,13 @@ test(memory): add long-term memory tests
 ### Pull Request Process
 
 1. **Fork & Clone**
+
    ```bash
    git clone https://github.com/YOUR_USERNAME/dcyfr-ai-agents.git
    ```
 
 2. **Create Branch**
+
    ```bash
    git checkout -b feature/my-feature
    ```
@@ -184,12 +202,14 @@ test(memory): add long-term memory tests
    - Run linter and tests
 
 4. **Commit**
+
    ```bash
    git add .
    git commit -m "feat(scope): description"
    ```
 
 5. **Push**
+
    ```bash
    git push origin feature/my-feature
    ```
@@ -227,36 +247,45 @@ Before submitting, ensure:
 
 ### Template
 
-```markdown
+````markdown
 ## Bug Description
+
 [Clear description of the issue]
 
 ## Steps to Reproduce
+
 1. [First step]
 2. [Second step]
 3. [...]
 
 ## Expected Behavior
+
 [What should happen]
 
 ## Actual Behavior
+
 [What actually happens]
 
 ## Environment
+
 - Node.js: [version]
 - npm: [version]
 - OS: [operating system]
 - @dcyfr/ai-agents: [version]
 
 ## Code Sample
+
 ```typescript
 // Minimal code to reproduce
 ```
+````
 
 ## Error Output
+
 ```
 [Error message and stack trace]
 ```
+
 ```
 
 ## ✨ Feature Requests
@@ -320,3 +349,4 @@ Every contribution, no matter how small, makes a difference. We appreciate your 
 ---
 
 Questions? Email us at hello@dcyfr.ai or visit https://www.dcyfr.ai
+```

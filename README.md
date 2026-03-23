@@ -35,18 +35,27 @@ npm run dev
 
 ## 🧭 Related Packages
 
-| Package | Purpose | Type |
-|---------|---------|------|
-| [@dcyfr/ai](../dcyfr-ai) | Core AI framework | npm package |
-| [@dcyfr/ai-nodejs](../dcyfr-ai-nodejs) | Node.js starter | Template |
-| [@dcyfr/ai-api](../dcyfr-ai-api) | REST API template | Template |
-| [dcyfr-labs](../dcyfr-labs) | Production Next.js app | Application |
+| Package                                | Purpose                | Type        |
+| -------------------------------------- | ---------------------- | ----------- |
+| [@dcyfr/ai](../dcyfr-ai)               | Core AI framework      | npm package |
+| [@dcyfr/ai-nodejs](../dcyfr-ai-nodejs) | Node.js starter        | Template    |
+| [@dcyfr/ai-api](../dcyfr-ai-api)       | REST API template      | Template    |
+| [dcyfr-labs](../dcyfr-labs)            | Production Next.js app | Application |
 
 ---
 
 ## 🎯 Overview
 
 **@dcyfr/ai-agents** is a production-ready starter template for building autonomous AI agents with tool usage, memory management, and comprehensive observability.
+
+## About DCYFR
+
+`@dcyfr/ai-agents` is part of the **DCYFR Labs** template ecosystem for production-ready AI applications.
+
+- **DCYFR** is a registered trademark of DCYFR Labs.
+- Primary domain: [www.dcyfr.ai](https://www.dcyfr.ai)
+- Trademark guidance: [../TRADEMARK.md](../TRADEMARK.md)
+- Licensing details: [LICENSE](./LICENSE)
 
 Perfect for developers building AI assistants, research agents, workflow automation, or any application requiring autonomous decision-making with external tool integration.
 
@@ -148,10 +157,11 @@ Perfect for developers building AI assistants, research agents, workflow automat
 ### Use Cases
 
 Perfect for building:
+
 - 🤝 Customer service chatbots with tool integration
 - 🔬 Research assistants that search and synthesize information
 - 💻 Code generation agents with file system access
--  🔄 Workflow automation with multi-step reasoning
+- 🔄 Workflow automation with multi-step reasoning
 - 📝 Content creation agents with fact-checking tools
 - 🎯 Task planning and execution systems
 
@@ -184,19 +194,26 @@ npm install @dcyfr/ai-agents
 ## 💡 Basic Usage
 
 ```typescript
-import { Agent, calculatorTool, searchTool, ShortTermMemory } from '@dcyfr/ai-agents';
+import {
+  Agent,
+  calculatorTool,
+  searchTool,
+  ShortTermMemory,
+} from "@dcyfr/ai-agents";
 
 // Create an agent
 const agent = new Agent({
-  name: 'Assistant',
-  description: 'Helpful AI assistant',
+  name: "Assistant",
+  description: "Helpful AI assistant",
   tools: [calculatorTool, searchTool],
   memory: new ShortTermMemory(),
   maxIterations: 10,
 });
 
 // Run the agent
-const result = await agent.run('Calculate 15 * 23 and search for information about AI');
+const result = await agent.run(
+  "Calculate 15 * 23 and search for information about AI",
+);
 
 console.log(result.output);
 console.log(`Completed in ${result.iterations} steps`);
@@ -240,6 +257,7 @@ sequenceDiagram
 #### Agent
 
 The main agent class that orchestrates:
+
 - Decision-making loop
 - Tool execution
 - Memory management
@@ -247,12 +265,14 @@ The main agent class that orchestrates:
 
 ```typescript
 const agent = new Agent({
-  name: 'My Agent',
-  description: 'What this agent does',
+  name: "My Agent",
+  description: "What this agent does",
   maxIterations: 10,
   temperature: 0.7,
   verbose: true,
-  tools: [/* tools */],
+  tools: [
+    /* tools */
+  ],
   memory: new ShortTermMemory(),
   listeners: [(event) => console.log(event)],
 });
@@ -263,12 +283,12 @@ const agent = new Agent({
 Type-safe tools with Zod validation:
 
 ```typescript
-import { z } from 'zod';
-import type { Tool } from '@dcyfr/ai-agents';
+import { z } from "zod";
+import type { Tool } from "@dcyfr/ai-agents";
 
 const myTool: Tool<{ query: string }, { result: string }> = {
-  name: 'my_tool',
-  description: 'Description for the agent',
+  name: "my_tool",
+  description: "Description for the agent",
   inputSchema: z.object({
     query: z.string().min(1),
   }),
@@ -284,21 +304,23 @@ const myTool: Tool<{ query: string }, { result: string }> = {
 Two memory implementations:
 
 **Short-term (in-memory):**
+
 ```typescript
 const memory = new ShortTermMemory(100); // Max 100 entries
-await memory.save('key', 'value');
-const value = await memory.get('key');
+await memory.save("key", "value");
+const value = await memory.get("key");
 ```
 
 **Long-term (file-based):**
+
 ```typescript
 const memory = new LongTermMemory({
-  storagePath: './agent-memory.json',
+  storagePath: "./agent-memory.json",
   autoSaveInterval: 5000, // Auto-save every 5s
 });
 
 await memory.load();
-await memory.save('knowledge', { learned: 'data' });
+await memory.save("knowledge", { learned: "data" });
 await memory.persist();
 ```
 
@@ -312,14 +334,14 @@ const agent = new Agent({
   listeners: [
     (event) => {
       switch (event.type) {
-        case 'start':
-          console.log('Agent started:', event.data.input);
+        case "start":
+          console.log("Agent started:", event.data.input);
           break;
-        case 'tool_call':
-          console.log('Calling tool:', event.data.tool);
+        case "tool_call":
+          console.log("Calling tool:", event.data.tool);
           break;
-        case 'finish':
-          console.log('Agent finished:', event.data.output);
+        case "finish":
+          console.log("Agent finished:", event.data.output);
           break;
       }
     },
@@ -336,53 +358,60 @@ const agent = new Agent({
 ### Customer Service Agent
 
 ```typescript
-import { Agent, searchTool, getCurrentTimeTool } from '@dcyfr/ai-agents';
+import { Agent, searchTool, getCurrentTimeTool } from "@dcyfr/ai-agents";
 
 const agent = new Agent({
-  name: 'Customer Support',
-  description: 'Helpful customer service agent',
+  name: "Customer Support",
+  description: "Helpful customer service agent",
   tools: [searchTool, getCurrentTimeTool],
 });
 
-const result = await agent.run('Help me track my order #12345');
+const result = await agent.run("Help me track my order #12345");
 ```
 
 ### Research Agent
 
 ```typescript
-import { Agent, searchTool, calculatorTool, LongTermMemory } from '@dcyfr/ai-agents';
+import {
+  Agent,
+  searchTool,
+  calculatorTool,
+  LongTermMemory,
+} from "@dcyfr/ai-agents";
 
-const memory = new LongTermMemory({ storagePath: './research.json' });
+const memory = new LongTermMemory({ storagePath: "./research.json" });
 await memory.load();
 
 const agent = new Agent({
-  name: 'Researcher',
-  description: 'Research assistant',
+  name: "Researcher",
+  description: "Research assistant",
   tools: [searchTool, calculatorTool],
   memory,
 });
 
-const result = await agent.run('Research AI agent frameworks and compare adoption rates');
+const result = await agent.run(
+  "Research AI agent frameworks and compare adoption rates",
+);
 ```
 
 ### Custom Tool
 
 ```typescript
-import { z } from 'zod';
+import { z } from "zod";
 
 const weatherTool = {
-  name: 'get_weather',
-  description: 'Get current weather for a location',
+  name: "get_weather",
+  description: "Get current weather for a location",
   inputSchema: z.object({
     location: z.string(),
-    units: z.enum(['celsius', 'fahrenheit']).optional(),
+    units: z.enum(["celsius", "fahrenheit"]).optional(),
   }),
   async execute(input) {
     // Fetch weather from API
     return {
       location: input.location,
       temperature: 72,
-      conditions: 'sunny',
+      conditions: "sunny",
     };
   },
 };
@@ -467,6 +496,7 @@ Both `ShortTermMemory` and `LongTermMemory` implement:
 **Agent Loop**: The core execution pattern where the agent iterates through thought → action → observation cycles until completing its task or reaching the maximum iteration limit.
 
 **Tools**: Functions the agent can call to interact with external systems. Each tool has:
+
 - A unique name
 - A description the agent uses to decide when to call it
 - A Zod input schema for validation
