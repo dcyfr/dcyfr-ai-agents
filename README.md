@@ -1,5 +1,15 @@
 # @dcyfr/ai-agents
 
+<!-- README-META
+  tlp_clearance: GREEN
+  status: active
+  name: dcyfr-ai-agents
+  description: Autonomous agent framework template - DCYFR AI starter
+  last_validated: 2026-03-29
+-->
+
+![Use Case: Customer Service](https://img.shields.io/badge/Use%20Case-Customer%20Service-informational?style=flat-square)
+
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/dcyfr/dcyfr-ai-agents)
 
 > Autonomous agent framework template - Build AI agents with tool usage, memory, and observability
@@ -12,7 +22,6 @@
 [![Sponsor](https://img.shields.io/badge/sponsor-30363D?style=flat-square&logo=GitHub-Sponsors&logoColor=#EA4AAA)](https://github.com/sponsors/dcyfr)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 
-![Use Case: Customer Service](https://img.shields.io/badge/Use%20Case-Customer%20Service-informational?style=flat-square)
 ![Use Case: Research](https://img.shields.io/badge/Use%20Case-Research-informational?style=flat-square)
 ![Use Case: Code Generation](https://img.shields.io/badge/Use%20Case-Code%20Generation-informational?style=flat-square)
 
