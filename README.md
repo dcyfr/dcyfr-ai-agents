@@ -1,5 +1,7 @@
 # @dcyfr/ai-agents
 
+![Use Case: Customer Service](https://img.shields.io/badge/Use%20Case-Customer%20Service-informational?style=flat-square)
+
 <!-- README-META
   tlp_clearance: GREEN
   status: active
@@ -7,8 +9,6 @@
   description: Autonomous agent framework template - DCYFR AI starter
   last_validated: 2026-03-29
 -->
-
-![Use Case: Customer Service](https://img.shields.io/badge/Use%20Case-Customer%20Service-informational?style=flat-square)
 
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/dcyfr/dcyfr-ai-agents)
 
