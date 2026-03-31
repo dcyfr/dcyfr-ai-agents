@@ -91,7 +91,7 @@
     "eslint": "^10.0.3",
     "globals": "^17.3.0",
     "tsx": "^4.7.0",
-    "typescript": "^5.3.3",
+    "typescript": "^6.0.2",
     "typescript-eslint": "^8.56.0",
     "vitest": "^4.0.18",
     "@dcyfr/ai": "^3.0.1"
