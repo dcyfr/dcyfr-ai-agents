@@ -7,7 +7,7 @@
   status: active
   name: dcyfr-ai-agents
   description: Autonomous agent framework template - DCYFR AI starter
-  last_validated: 2026-03-29
+  last_validated: 2026-04-10
 -->
 
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/dcyfr/dcyfr-ai-agents)
@@ -16,8 +16,8 @@
 
 > **📦 Starter Template** — This is a **starter template** for cloning, not an npm package. Use `git clone` or download the source to create your own AI agent application. This package is marked `private: true` and is not published to npm.
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-24+-green?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.0-blue?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-20+-green?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Tests](https://img.shields.io/badge/Tests-95%25%20Coverage-28a745?style=flat-square)](./tests/)
 [![Sponsor](https://img.shields.io/badge/sponsor-30363D?style=flat-square&logo=GitHub-Sponsors&logoColor=#EA4AAA)](https://github.com/sponsors/dcyfr)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
@@ -197,7 +197,9 @@ npm run build
 ## 📦 Installation
 
 ```bash
-npm install @dcyfr/ai-agents
+npx degit dcyfr/dcyfr-ai-agents my-project
+cd my-project
+npm install
 ```
 
 ## 💡 Basic Usage
