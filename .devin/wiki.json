@@ -1,0 +1,8 @@
+{
+  "repo_notes": [
+    {
+      "content": "Private DCYFR-specific agent implementations. Document the specialized agents (rei, architect, asuka, librarian, scout, sentinel, shinji), their capabilities, execution patterns, and how they integrate with the delegation framework and workspace automation systems.",
+      "author": "DCYFR Engineering"
+    }
+  ]
+}
