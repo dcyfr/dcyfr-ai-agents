@@ -178,7 +178,7 @@ Perfect for building:
 
 ```bash
 # Clone or use as template
-git clone https://github.com/dcyfr/dcyfr-ai-agents.git
+git clone https://github.com/dcyfr-labs/dcyfr-ai-agents.git
 cd dcyfr-ai-agents
 
 # Install dependencies
@@ -523,8 +523,8 @@ Both `ShortTermMemory` and `LongTermMemory` implement:
 - 📧 **Support Email**: [hello@dcyfr.ai](mailto:hello@dcyfr.ai)
 - 📚 **Documentation Portal**: [https://docs.dcyfr.ai](https://docs.dcyfr.ai) (coming soon)
 - 🐙 **GitHub Organization**: [https://github.com/dcyfr](https://github.com/dcyfr)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/dcyfr/dcyfr-ai-agents/discussions)
-- 🐛 **Issue Tracker**: [GitHub Issues](https://github.com/dcyfr/dcyfr-ai-agents/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/dcyfr-labs/dcyfr-ai-agents/discussions)
+- 🐛 **Issue Tracker**: [GitHub Issues](https://github.com/dcyfr-labs/dcyfr-ai-agents/issues)
 
 ### Related Projects
 
