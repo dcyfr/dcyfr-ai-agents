@@ -62,11 +62,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dcyfr/dcyfr-ai-agents.git"
+    "url": "https://github.com/dcyfr-labs/dcyfr-ai-agents.git"
   },
-  "homepage": "https://github.com/dcyfr/dcyfr-ai-agents#readme",
+  "homepage": "https://github.com/dcyfr-labs/dcyfr-ai-agents#readme",
   "bugs": {
-    "url": "https://github.com/dcyfr/dcyfr-ai-agents/issues"
+    "url": "https://github.com/dcyfr-labs/dcyfr-ai-agents/issues"
   },
   "publishConfig": {
     "access": "public"
