@@ -137,19 +137,22 @@ export class Agent {
       // Dynamic import of @dcyfr/ai runtime infrastructure
       const { AgentRuntime, ProviderRegistry, getMemory, TelemetryEngine } = await import('@dcyfr/ai');
 
-      // Initialize runtime components with preferred provider fallback order:
-      // 1. Msty Vibe CLI Proxy (maps openai standard to Claude, GPT/Codex, Gemini, etc. on port 8317)
-      // 2. Anthropic (Claude only)
-      // 3. OpenAI (GPT/Codex only)
-      // 4. GitHub Models API (smaller models for apps)
-      // 5. Ollama (locally hosted models via Msty Local AI on port 11434)
+      // Initialize runtime components with preferred provider fallback order.
+      // Constrained to the ProviderType union exported by @dcyfr/ai:
+      //   "local" | "ollama" | "workbench" | "github-models" | "anthropic"
+      // The Msty Vibe CLI Proxy (port 8317) is fronted via the anthropic
+      // provider when ANTHROPIC_BASE_URL points at the proxy — no separate
+      // "copilot" provider type is required.
+      // 1. Anthropic (direct Claude API, optionally via Msty/CLIProxyAPI)
+      // 2. GitHub Models API (smaller models for apps)
+      // 3. Ollama (locally hosted models)
+      // 4. Workbench (GPU node via Tailscale)
       const providerRegistry = new ProviderRegistry({
-        primaryProvider: 'copilot' as const, // Msty Vibe CLI Proxy
+        primaryProvider: 'anthropic' as const,
         fallbackChain: [
-          'anthropic' as const,        // Priority #2
-          'openai' as const,           // Priority #3
-          'github-models' as const,    // Priority #4
-          'ollama' as const,           // Priority #5
+          'github-models' as const,
+          'ollama' as const,
+          'workbench' as const,
         ],
         autoReturn: false,
         healthCheckInterval: 60000,
