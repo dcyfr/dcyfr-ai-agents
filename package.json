@@ -75,7 +75,7 @@
     "zod": "^4.3.6"
   },
   "peerDependencies": {
-    "@dcyfr/ai": "^3.0.1"
+    "@dcyfr/ai": "^3.0.3"
   },
   "peerDependenciesMeta": {
     "@dcyfr/ai": {
@@ -94,7 +94,7 @@
     "typescript": "^6.0.2",
     "typescript-eslint": "^8.56.0",
     "vitest": "^4.0.18",
-    "@dcyfr/ai": "^3.0.1"
+    "@dcyfr/ai": "^3.0.3"
   },
   "engines": {
     "node": ">=20.0.0"
